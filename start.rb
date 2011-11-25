@@ -13,7 +13,7 @@ require 'siriProxy'
 
 #Also try Eliza -- though it should really not be run "before" anything else.
 #Also try Twitter -- must first configure keys in siriTweet.rb
-PLUGINS = [TestProxy]
+PLUGINS = [SoccerScores]
 
 proxy = SiriProxy.new(PLUGINS)
 
