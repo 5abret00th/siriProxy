@@ -11,3 +11,5 @@
     get info about open or closed window
     set temperature
     turn lamp on and off
+### apt-get install libxslt-ruby and gem install nokogiri
+http://nokogiri.org/tutorials/installing_nokogiri.html

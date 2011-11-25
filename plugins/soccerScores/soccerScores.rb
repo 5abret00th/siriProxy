@@ -191,7 +191,7 @@ class SoccerScores < SiriPlugin
     if((phrase.match(/Stuttgart/i) || phrase.match(/VFB/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "FCA"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "VFB"))
     end
 
     if(phrase.match(/Wolfsburg/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
