@@ -18,7 +18,7 @@ class SoccerScores < SiriPlugin
 	def score(connection, userTeam)
 
 	  Thread.new {
-	    doc = Nokogiri::HTML(open("http://mobil.bundesliga.de/index.php?file=de/index.xhtml"))
+	    #doc = Nokogiri::HTML(open("http://mobil.bundesliga.de/index.php?file=de/index.xhtml"))
       #scores = doc.css(".game_entry")
 
       #scores.each {
