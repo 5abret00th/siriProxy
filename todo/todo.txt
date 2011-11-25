@@ -1,0 +1,13 @@
+########################################
+##############  ToDo's  ################
+########################################
+
+- change ./plugins/soccerScores/soccerScores.rb
+- change ./plugins/testproxy/testproxy.rb
+    try different siriObjects from ./siriObjectGenerator.rb
+- try connection to fhem on FB7390
+    open and close the shutter
+    get temperature
+    get info about open or closed window
+    set temperature
+    turn lamp on and off
