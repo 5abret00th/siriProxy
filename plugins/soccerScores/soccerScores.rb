@@ -19,7 +19,7 @@ class SoccerScores < SiriPlugin
 
 
 	  Thread.new {
-      connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, "response"))
+      #connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, "response"))
 	    #doc = Nokogiri::HTML(open("http://mobil.bundesliga.de/index.php?file=de/index.xhtml"))
       #scores = doc.css(".game_entry")
 
