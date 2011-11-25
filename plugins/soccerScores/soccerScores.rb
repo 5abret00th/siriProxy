@@ -4,11 +4,12 @@ require 'open-uri'
 require 'nokogiri'
 
 #############
-# This is a plugin for SiriProxy that will allow you to check tonight's hockey scores
-# Example usage: "What's the score of the Avalanche game?"
+# This is a plugin for SiriProxy that will allow you to check the weekends 'german bundesliga' soccer scores
+# Example usage: "Wie hat Stuttgart heute gespielt"
+# This Plugin is based on the NHL Plugin from XXXXXXXXXX
 #############
 
-class SiriHockeyScores < SiriPlugin
+class SiriBundesligaScores < SiriPlugin
   @firstTeamName = ""
   @firstTeamScore = ""
   @secondTeamName = ""
@@ -16,24 +17,42 @@ class SiriHockeyScores < SiriPlugin
 
 	def score(connection, userTeam)
 	  Thread.new {
-	    doc = Nokogiri::HTML(open("http://www.nhl.com/ice/m_scores.htm"))
-      scores = doc.css(".gmDisplay")
+	    doc = Nokogiri::HTML(open("http://mobil.bundesliga.de/index.php?file=de/index.xhtml"))
+      scores = doc.css(".game_entry")
 
       scores.each {
         |score|
-        team = score.css(".blkcolor")
-        team.each {
+        team_home = score.css(".pic25left")
+        team_guest = score.css(".pic25right") #second array needed
+
+        team_home.each {
           |teamname|
           if(teamname.content.strip == userTeam)
-            firstTeam = score.css("tr:nth-child(2)").first
-            @firstTeamName = firstTeam.css(".blkcolor").first.content.strip
-            @firstTeamScore = firstTeam.css("td:nth-child(2)").first.content.strip
-            secondTeam = score.css("tr:nth-child(3)").first
-            @secondTeamName = secondTeam.css(".blkcolor").first.content.strip
-            @secondTeamScore = secondTeam.css("td:nth-child(2)").first.content.strip
+            firstTeam = score.css("div:nth-child(1)").first
+            @firstTeamName = firstTeam.css(".pic25left").first.content.strip
+            @firstTeamScore = firstTeam.css(".score").first.content.strip  #function needed to convert 2:2 into seperated values
+            secondTeam = score.css("div:nth-child(1)").first
+            @secondTeamName = secondTeam.css(".pic25right").first.content.strip
+            @secondTeamScore = secondTeam.css(".score").first.content.strip
             break
           end
         }
+
+        team_guest.each {
+          |teamname|
+          if(teamname.content.strip == userTeam)
+            firstTeam = score.css("div:nth-child(1)").first
+            @firstTeamName = firstTeam.css(".pic25left").first.content.strip
+            @firstTeamScore = firstTeam.css(".score").first.content.strip
+            secondTeam = score.css("div:nth-child(1)").first
+            @secondTeamName = secondTeam.css(".pic25right").first.content.strip
+            @secondTeamScore = secondTeam.css(".score").first.content.strip
+            break
+          end
+        }
+
+
+
       }
       if((@firstTeamName == "") || (@secondTeamName == ""))
         response = "No games involving the " + userTeam + " were found playing tonight"
@@ -46,7 +65,11 @@ class SiriHockeyScores < SiriPlugin
 		return "Checking on tonight's hockey games"
 	end
 
+  def homeScoreParser(score)
 
+  #This Parser is needed to convert the score as sting into 2 integer and add them to the @fistTeamScore and @secondTeamScore
+
+  end
 	#plusgin implementations:
 	def object_from_guzzoni(object, connection)
 
@@ -69,185 +92,113 @@ class SiriHockeyScores < SiriPlugin
 	end
 
 	def speech_recognized(object, connection, phrase)
-    if(phrase.match(/score/i) && (phrase.match(/anaheim/i) || phrase.match(/ducks/i)) && phrase.match(/game/i))
+    if(phrase.match(/Gladbach/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Ducks"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "BMG"))
 		end
 
-		if(phrase.match(/score/i) && (phrase.match(/boston/i) || phrase.match(/bruins/i)) && phrase.match(/game/i))
+    if(phrase.match(/Bremen/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Bruins"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "BRE"))
+    end
+
+    if((phrase.match(/Herta/i) || phrase.match(/BSC/i) || phrase.match(/Berlin/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
+			self.plugin_manager.block_rest_of_session_from_server
+			connection.inject_object_to_output_stream(object)
+			return generate_siri_utterance(connection.lastRefId, score(connection, "BSC"))
 		end
 
-		if(phrase.match(/score/i) && (phrase.match(/buffalo/i) || phrase.match(/sabres/i)) && phrase.match(/game/i))
+    if((phrase.match(/Dortmund/i) || phrase.match(/BVB/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Sabres"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "BVB"))
+    end
+
+    if(phrase.match(/Leverkusen/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
+			self.plugin_manager.block_rest_of_session_from_server
+			connection.inject_object_to_output_stream(object)
+			return generate_siri_utterance(connection.lastRefId, score(connection, "B04"))
 		end
 
-    if(phrase.match(/score/i) && (phrase.match(/calgary/i) || phrase.match(/flames/i)) && phrase.match(/game/i))
+    if(phrase.match(/Augsburg/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Flames"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "FCA"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/carolina/i) || phrase.match(/hurricanes/i) || phrase.match(/canes/i)) && phrase.match(/game/i))
+    if((phrase.match(/Bayern/i) || phrase.match(/München/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Hurricanes"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "FCB"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/chicago/i) || phrase.match(/blackhawks/i)) && phrase.match(/game/i))
+    if((phrase.match(/Kaiserslautern/i) || phrase.match(/lautern/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Blackhawks"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "FCK"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/colorado/i) || phrase.match(/avalanche/i)) && phrase.match(/game/i))
+    if((phrase.match(/Nürnberg/i) || phrase.match(/Club/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Avalanche"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "FCN"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/columbus/i) || phrase.match(/blue jackets/i)) && phrase.match(/game/i))
+    if(phrase.match(/Hoffenheim/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Blue Jackets"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "HOF"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/dallas/i) || phrase.match(/stars/i)) && phrase.match(/game/i))
+    if((phrase.match(/Hamburg/i) || phrase.match(HSV)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Stars"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "HSV"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/detroit/i) || phrase.match(/red wings/i)) && phrase.match(/game/i))
+    if(phrase.match(/Hannover/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Red Wings"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "H96"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/edmonton/i) || phrase.match(/oilers/i)) && phrase.match(/game/i))
+    if(phrase.match(/Köln/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Avalanche"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "KOE"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/florida/i) || phrase.match(/panthers/i)) && phrase.match(/game/i))
+    if(phrase.match(/Mainz/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Panthers"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "M05"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/l.a./i) || phrase.match(/los angeles/i) || phrase.match(/kings/i)) && phrase.match(/game/i))
+    if(phrase.match(/Frankfurth/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Kings"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "SCF"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/minnesota/i) || phrase.match(/wild/i)) && phrase.match(/game/i))
+    if(phrase.match(/Schalke/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Wild"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "S04"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/montreal/i) || phrase.match(/canadiens/i) || phrase.match(/canadians/i)) && phrase.match(/game/i))
+    if((phrase.match(/Stuttgart/i) || phrase.match(/VFB/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Canadiens"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "FCA"))
+    end
 
-		if(phrase.match(/score/i) && (phrase.match(/nashville/i) || phrase.match(/predators/i) || phrase.match(/preds/i)) && phrase.match(/game/i))
+    if(phrase.match(/Wolfsburg/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Predators"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/new jersey/i) || phrase.match(/devils/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Devils"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/new york islanders/i) || phrase.match(/islanders/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Islanders"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/new york rangers/i) || phrase.match(/rangers/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Rangers"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/ottawa/i) || phrase.match(/senators/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Senators"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/philadelphia/i) || phrase.match(/philly/i) || phrase.match(/flyers/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Flyers"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/phoenix/i) || phrase.match(/coyotes/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Coyotes"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/pittsburgh/i) || phrase.match(/penguins/i) || phrase.match(/pens/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Penguins"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/san jose/i) || phrase.match(/sharks/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Sharks"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/st. louis/i) || phrase.match(/blues/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Blues"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/tampa bay/i) || phrase.match(/lightning/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Lightning"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/toronto/i) || phrase.match(/leafs/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Maple Leafs"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/vancouver/i) || phrase.match(/canucks/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Canucks"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/washington/i) || phrase.match(/capitals/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Capitals"))
-		end
-
-		if(phrase.match(/score/i) && (phrase.match(/winnipeg/i) || phrase.match(/jets/i)) && phrase.match(/game/i))
-			self.plugin_manager.block_rest_of_session_from_server
-			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Jets"))
-		end
+			return generate_siri_utterance(connection.lastRefId, score(connection, "WOB"))
+    end
 
 		object
 	end

@@ -1,11 +1,12 @@
 Siri Proxy
 ==========
 
+Still under development - not tested !! Use at your own risk !!
+==========
+
 About
 -----
 Siri Proxy is a proxy server for Apple's Siri "assistant." The idea is to allow for the creation of custom handlers for different actions. This can allow developers to easily add functionality to Siri. 
-
-The main example I provide is a plugin to control [my thermostat](http://www.radiothermostat.com/latestnews.html#advanced) with Siri. It responds to commands such as, "What's the status of the thermostat?", or "Set the thermostat to 68 degrees", or even "What's the inside temperature?"
 
 Find us on IRC
 --------------
