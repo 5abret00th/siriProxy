@@ -57,14 +57,14 @@ class SoccerScores < SiriPlugin
       #}
 
       if((@firstTeamName == "") || (@secondTeamName == ""))
-        response = "No games involving the " + userTeam + " were found playing tonight"
+        response = "Es wurde kein Spiel von " + userTeam + " gefunden"
       else
-        response = "The score for the " + userTeam + " game is: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
+        response = "Das Ergebnis vom " + userTeam + " Spiel ist: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
 			end
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
     }
 
-		return "Checking on tonight's hockey games "+ userTeam
+		return "Prüfe die Bundesligaspiele von "+ userTeam
 	end
 
   def homeScoreParser(score)
