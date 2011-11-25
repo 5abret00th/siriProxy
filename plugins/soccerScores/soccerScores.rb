@@ -10,14 +10,14 @@ require 'nokogiri'
 #############
 
 class SoccerScores < SiriPlugin
-
-
-	def score(connection, userTeam)
-
   @firstTeamName = ""
   @firstTeamScore = "test"
   @secondTeamName = ""
   @secondTeamScore = "test"
+
+	def score(connection, userTeam)
+
+
 
 
 	  #Thread.new {
