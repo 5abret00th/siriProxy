@@ -19,25 +19,25 @@ class SoccerScores < SiriPlugin
 
 	  Thread.new {
 	    doc = Nokogiri::HTML(open("http://mobil.bundesliga.de/index.php?file=de/index.xhtml"))
-      scores = doc.css(".game_entry")
+      #scores = doc.css(".game_entry")
 
-      scores.each {
-        |score|
-        team_home = score.css(".pic25left")
+      #scores.each {
+      #  |score|
+      #  team_home = score.css(".pic25left")
         #team_guest = score.css(".pic25right") #second array needed
 
-        team_home.each {
-          |teamname|
-          if(teamname.content.strip == userTeam)
-            firstTeam = score.css("div:nth-child(1)").first
-            @firstTeamName = firstTeam.css(".pic25left").first.content.strip
-            @firstTeamScore = firstTeam.css(".score").first.content.strip  #function needed to convert 2:2 into seperated values
-            secondTeam = score.css("div:nth-child(1)").first
-            @secondTeamName = secondTeam.css(".pic25right").first.content.strip
-            @secondTeamScore = secondTeam.css(".score").first.content.strip
-            break
-          end
-        }
+      #  team_home.each {
+      #    |teamname|
+      #    if(teamname.content.strip == userTeam)
+      #      firstTeam = score.css("div:nth-child(1)").first
+      #      @firstTeamName = firstTeam.css(".pic25left").first.content.strip
+      #      @firstTeamScore = firstTeam.css(".score").first.content.strip  #function needed to convert 2:2 into seperated values
+      #      secondTeam = score.css("div:nth-child(1)").first
+      #      @secondTeamName = secondTeam.css(".pic25right").first.content.strip
+      #      @secondTeamScore = secondTeam.css(".score").first.content.strip
+      #      break
+      #    end
+      # }
 
         #team_guest.each {
         #  |teamname|
