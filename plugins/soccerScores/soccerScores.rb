@@ -61,8 +61,8 @@ class SoccerScores < SiriPlugin
       if((@firstTeamName == "") || (@secondTeamName == ""))
         response = "Es wurde kein Spiel von " + userTeam + " gefunden"
       else
-        #response = "Das Ergebnis vom " + userTeam + " Spiel ist: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
-			  response = "kein ergebnis gefunden"
+        response = "Das Ergebnis vom " + userTeam + " Spiel ist: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
+			  #response = "kein ergebnis gefunden"
       end
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
     #}
