@@ -152,7 +152,7 @@ class SoccerScores < SiriPlugin
 			return generate_siri_utterance(connection.lastRefId, score(connection, "HOF"))
     end
 
-    if((phrase.match(/Hamburg/i) || phrase.match(HSV)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
+    if((phrase.match(/Hamburg/i) || phrase.match(/HSV/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
 			return generate_siri_utterance(connection.lastRefId, score(connection, "HSV"))
