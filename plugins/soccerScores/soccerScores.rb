@@ -16,6 +16,7 @@ class SoccerScores < SiriPlugin
   @secondTeamScore = ""
 
 	def score(connection, userTeam)
+    response = "No games involving the " + userTeam + " were found playing tonight"
 	  Thread.new {
 	    doc = Nokogiri::HTML(open("http://mobil.bundesliga.de/index.php?file=de/index.xhtml"))
       scores = doc.css(".game_entry")
