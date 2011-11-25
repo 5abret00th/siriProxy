@@ -14,9 +14,9 @@ class SoccerScores < SiriPlugin
 
 	def score(connection, userTeam)
 
-  @firstTeamName = "test"
+  @firstTeamName = ""
   @firstTeamScore = "test"
-  @secondTeamName = "test"
+  @secondTeamName = ""
   @secondTeamScore = "test"
 
 
