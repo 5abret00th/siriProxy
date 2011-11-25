@@ -50,18 +50,17 @@ class SoccerScores < SiriPlugin
         #    @secondTeamScore = secondTeam.css(".score").first.content.strip
         #    break
         #  end
-       #}
+        #}
 
+      #}
 
-
-      }
       if((@firstTeamName == "") || (@secondTeamName == ""))
         response = "No games involving the " + userTeam + " were found playing tonight"
       else
         response = "The score for the " + userTeam + " game is: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
 			end
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
-		}
+    }
 
 		return "Checking on tonight's hockey games "+ userTeam
 	end
