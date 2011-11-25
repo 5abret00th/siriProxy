@@ -61,7 +61,7 @@ class SoccerScores < SiriPlugin
 			end
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
     }
-
+    connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, "response"))
 		return "Checking on tonight's hockey games "+ userTeam
 	end
 
