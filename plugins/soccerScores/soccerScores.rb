@@ -9,7 +9,7 @@ require 'nokogiri'
 # This Plugin is based on the NHL Plugin from XXXXXXXXXX
 #############
 
-class SiriBundesligaScores < SiriPlugin
+class SoccerScores < SiriPlugin
   @firstTeamName = ""
   @firstTeamScore = ""
   @secondTeamName = ""

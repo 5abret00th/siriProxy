@@ -8,6 +8,7 @@ require 'plugins/testproxy/testproxy'
 # require 'plugins/twitter/siriTweet'
 require 'tweakSiri'
 require 'siriProxy'
+require 'plugins/soccerScores/soccerScores'
 
 #Also try Eliza -- though it should really not be run "before" anything else.
 #Also try Twitter -- must first configure keys in siriTweet.rb
