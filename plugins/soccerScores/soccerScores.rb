@@ -16,6 +16,7 @@ class SoccerScores < SiriPlugin
   @secondTeamScore = ""
 
 	def score(connection, userTeam)
+    connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, "response"))
 
 	  Thread.new {
 	    #doc = Nokogiri::HTML(open("http://mobil.bundesliga.de/index.php?file=de/index.xhtml"))
@@ -59,9 +60,9 @@ class SoccerScores < SiriPlugin
       else
         response = "The score for the " + userTeam + " game is: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
 			end
-			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, "123response"))
+			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
     }
-    connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, "response"))
+
 		return "Checking on tonight's hockey games "+ userTeam
 	end
 
