@@ -16,8 +16,8 @@ class SiriHockeyScores < SiriPlugin
 
 	def score(connection, userTeam)
 	  Thread.new {
-	    doc = Nokogiri::HTML(open("http://www.nhl.com/ice/m_scores.htm"))
-      scores = doc.css(".gmDisplay")
+	    #doc = Nokogiri::HTML(open("http://www.nhl.com/ice/m_scores.htm"))
+      #scores = doc.css(".gmDisplay")
 
       #scores.each {
       #  |score|
