@@ -57,7 +57,7 @@ class SiriHockeyScores < SiriPlugin
           wsdl.document = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
       end
 
-      response = client.request :GetAvailLeagues
+      response = client.request :"GetAvailLeagues"
 
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
 		}
