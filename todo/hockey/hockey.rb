@@ -4,7 +4,7 @@ require 'open-uri'
 require 'nokogiri'
 require 'savon'
 
-Savon::SOAP.version=2
+#Savon::SOAP.version=2
 
 #############
 # This is a plugin for SiriProxy that will allow you to check tonight's hockey scores
