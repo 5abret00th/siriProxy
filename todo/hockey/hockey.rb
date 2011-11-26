@@ -16,25 +16,25 @@ class SiriHockeyScores < SiriPlugin
 
 	def score(connection, userTeam)
 	  Thread.new {
-	    #doc = Nokogiri::HTML(open("http://www.nhl.com/ice/m_scores.htm"))
-      #scores = doc.css(".gmDisplay")
+	    doc = Nokogiri::HTML(open("http://www.nhl.com/ice/m_scores.htm"))
+      scores = doc.css(".gmDisplay")
 
-      #scores.each {
-      #  |score|
-      #  team = score.css(".blkcolor")
-      #  team.each {
-      #    |teamname|
-      #    if(teamname.content.strip == userTeam)
-      #      firstTeam = score.css("tr:nth-child(2)").first
-      #      @firstTeamName = firstTeam.css(".blkcolor").first.content.strip
-      #      @firstTeamScore = firstTeam.css("td:nth-child(2)").first.content.strip
-      #      secondTeam = score.css("tr:nth-child(3)").first
-      #      @secondTeamName = secondTeam.css(".blkcolor").first.content.strip
-      #      @secondTeamScore = secondTeam.css("td:nth-child(2)").first.content.strip
-      #      break
-      #    end
-      # }
-      #}
+      scores.each {
+        |score|
+        team = score.css(".blkcolor")
+        team.each {
+          |teamname|
+          if(teamname.content.strip == userTeam)
+            firstTeam = score.css("tr:nth-child(2)").first
+            @firstTeamName = firstTeam.css(".blkcolor").first.content.strip
+            @firstTeamScore = firstTeam.css("td:nth-child(2)").first.content.strip
+            secondTeam = score.css("tr:nth-child(3)").first
+            @secondTeamName = secondTeam.css(".blkcolor").first.content.strip
+            @secondTeamScore = secondTeam.css("td:nth-child(2)").first.content.strip
+            break
+          end
+       }
+      }
 
 
       if((@firstTeamName == "") || (@secondTeamName == ""))
