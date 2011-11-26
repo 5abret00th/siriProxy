@@ -58,7 +58,6 @@ class SiriHockeyScores < SiriPlugin
       end
 
       response = client.request "GetAvailSports"
-      end
 
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
 		}
