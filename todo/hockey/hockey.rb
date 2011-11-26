@@ -2,6 +2,9 @@ require './tweakSiri'
 require './siriObjectGenerator'
 require 'open-uri'
 require 'nokogiri'
+require 'savon'
+
+Savon::SOAP.version=2
 
 #############
 # This is a plugin for SiriProxy that will allow you to check tonight's hockey scores
@@ -13,6 +16,8 @@ class SiriHockeyScores < SiriPlugin
   @firstTeamScore = ""
   @secondTeamName = ""
   @secondTeamScore = ""
+
+#response = client.some_soap_method_in_snake_case
 
 	def score(connection, userTeam)
 	  Thread.new {
@@ -45,7 +50,15 @@ class SiriHockeyScores < SiriPlugin
         response = "No games involving the " + userTeam + " were found playing tonight"
       else
         response = "The score for the " + userTeam + " game is: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
-			end
+      end
+
+
+      client = Savon::Client.new do
+          wsdl.document = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
+      end
+
+      response = client.request :GetAvailLeagues
+
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
 		}
 
