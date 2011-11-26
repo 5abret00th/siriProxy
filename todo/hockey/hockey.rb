@@ -15,26 +15,30 @@ class SiriHockeyScores < SiriPlugin
   @secondTeamScore = ""
 
 	def score(connection, userTeam)
-	  #Thread.new {
-	  #  doc = Nokogiri::HTML(open("http://www.nhl.com/ice/m_scores.htm"))
-    #  scores = doc.css(".gmDisplay")
-    #
-    #  scores.each {
-    #    |score|
-    #    team = score.css(".blkcolor")
-    #    team.each {
-    #      |teamname|
-    #      if(teamname.content.strip == userTeam)
-    #        firstTeam = score.css("tr:nth-child(2)").first
-    #        @firstTeamName = firstTeam.css(".blkcolor").first.content.strip
-    #        @firstTeamScore = firstTeam.css("td:nth-child(2)").first.content.strip
-    #        secondTeam = score.css("tr:nth-child(3)").first
-    #        @secondTeamName = secondTeam.css(".blkcolor").first.content.strip
-    #        @secondTeamScore = secondTeam.css("td:nth-child(2)").first.content.strip
-    #        break
-    #      end
-    #   }
-    #  }
+	  Thread.new {
+	    doc = Nokogiri::HTML(open("http://www.nhl.com/ice/m_scores.htm"))
+      scores = doc.css(".gmDisplay")
+
+      scores.each {
+        |score|
+        team = score.css(".blkcolor")
+        team.each {
+          |teamname|
+          if(teamname.content.strip == userTeam)
+            firstTeam = score.css("tr:nth-child(2)").first
+            @firstTeamName = firstTeam.css(".blkcolor").first.content.strip
+            @firstTeamScore = firstTeam.css("td:nth-child(2)").first.content.strip
+            secondTeam = score.css("tr:nth-child(3)").first
+            @secondTeamName = secondTeam.css(".blkcolor").first.content.strip
+            @secondTeamScore = secondTeam.css("td:nth-child(2)").first.content.strip
+            @firstTeamName = test
+            @secondTeamName = secteam
+            @firstTeamScore = 1
+            @secondTeamScore = 2
+            break
+          end
+       }
+      }
 
 
       if((@firstTeamName == "") || (@secondTeamName == ""))
@@ -43,7 +47,7 @@ class SiriHockeyScores < SiriPlugin
         response = "The score for the " + userTeam + " game is: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
 			end
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
-		#}
+		}
 
 		return "Checking on tonight's hockey games"
 	end
