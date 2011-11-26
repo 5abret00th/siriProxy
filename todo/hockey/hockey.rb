@@ -31,10 +31,10 @@ class SiriHockeyScores < SiriPlugin
             secondTeam = score.css("tr:nth-child(3)").first
             @secondTeamName = secondTeam.css(".blkcolor").first.content.strip
             @secondTeamScore = secondTeam.css("td:nth-child(2)").first.content.strip
-            @firstTeamName = test
-            @secondTeamName = secteam
-            @firstTeamScore = 1
-            @secondTeamScore = 2
+            @firstTeamName = "test"
+            @secondTeamName = "secteam"
+            @firstTeamScore = "1"
+            @secondTeamScore = "2"
             break
           end
        }
