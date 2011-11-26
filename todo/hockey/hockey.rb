@@ -1,5 +1,5 @@
-require './tweaksiri'
-require './siriobjectgenerator'
+require './tweakSiri'
+require './siriObjectGenerator'
 require 'open-uri'
 require 'nokogiri'
 
