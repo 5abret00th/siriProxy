@@ -20,6 +20,7 @@ class SoccerScores < SiriPlugin
 	def score(connection, userTeam)
 
 	  Thread.new {
+      puts "test"
 	    doc = Nokogiri::HTML(open("http://www.nhl.com/ice/m_scores.htm"))
       scores = doc.css(".gmDisplay")
 
