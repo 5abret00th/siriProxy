@@ -63,8 +63,9 @@ class SiriHockeyScores < SiriPlugin
       puts "after"
       response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
       #response = "test"
+      response.each {
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
-
+      }
 		return "Checking on tonight's hockey games"
 	end
 
