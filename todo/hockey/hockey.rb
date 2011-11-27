@@ -80,7 +80,8 @@ class SiriHockeyScores < SiriPlugin
       @WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
       @soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
       puts "Lade alle Sachen initial in den Cache"
-      response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>"bl1",:leagueSaison=>"2011")
+      spieltag = @soap.GetCurrentGroupOrderID(:leagueShortcut=>"bl1")
+      response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>spieltag,:leagueSaison=>"2011")
       response.getMatchdataByGroupLeagueSaisonResult.matchdata.each{|item|
         #if item.matchID == "3"
         puts item.nameTeam1
