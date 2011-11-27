@@ -19,41 +19,9 @@ class SoccerScores < SiriPlugin
 
 	def score(connection, userTeam)
 
-	  Thread.new {
-      puts "test"
-	    doc = Nokogiri::HTML(open("http://www.nhl.com/ice/m_scores.htm"))
-      scores = doc.css(".gmDisplay")
+    return "pruefe bundesligaspiele"
 
-      scores.each {
-        |score|
-        team = score.css(".blkcolor")
-        team.each {
-          |teamname|
-          if(teamname.content.strip.downcase == userTeam.downcase)
-            firstTeam = score.css("tr:nth-child(2)").first
-            @firstTeamName = firstTeam.css(".blkcolor").first.content.strip
-            @firstTeamScore = firstTeam.css("td:nth-child(2)").first.content.strip
-            secondTeam = score.css("tr:nth-child(3)").first
-            @secondTeamName = secondTeam.css(".blkcolor").first.content.strip
-            @secondTeamScore = secondTeam.css("td:nth-child(2)").first.content.strip
-            break
-          end
-        }
-      }
-      if((@firstTeamName == "") || (@secondTeamName == ""))
-        response = "No games involving the " + userTeam + " were found playing tonight"
-      else
-        response = "The score for the " + userTeam + " game is: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
-			end
-			@firstTeamName = ""
-			@secondTeamName = ""
-			say response
-
-			request_completed
-		}
-
-	  return "Checking on tonight's hockey games"
-	end
+  end
 
 	#plusgin implementations:
 	def object_from_guzzoni(object, connection)
