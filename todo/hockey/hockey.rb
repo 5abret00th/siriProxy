@@ -80,7 +80,8 @@ class SiriHockeyScores < SiriPlugin
       #@response =  @soap.request(:get_match_by_match_id=>"9998")
       @response = @soap.request :get_avail_sports
 
-      puts @response.to_hash
+      puts "########################"
+      puts @response
 
       #@response.getavailsportsresponse.sport.each {|test|
       #   puts test.sportsName
