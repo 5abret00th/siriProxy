@@ -60,7 +60,7 @@ class SiriHockeyScores < SiriPlugin
       # create a client for your SOAP service
       soap = Savon::Client.new("http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL")
       puts soap.wsdl.soap_actions
-      team = doc.xml(".Sport")
+      team = soap.xml(".Sport")
       team.each {
         |team_name|
         team_a = team_name.xml(".sportsID")
