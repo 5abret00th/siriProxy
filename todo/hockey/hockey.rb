@@ -62,7 +62,7 @@ class SiriHockeyScores < SiriPlugin
       @soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
       puts "after"
       response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
-      puts response
+      puts.convert_unknown_to_string response
       #response = "test"
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
 
