@@ -86,8 +86,9 @@ class SiriHockeyScores < SiriPlugin
         puts item.nameTeam1
         puts item.nameTeam2
           break
-          end
+
           }
+        end
     }
 
 
