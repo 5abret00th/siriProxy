@@ -35,19 +35,19 @@ class SoccerScores < SiriPlugin
         puts item.idTeam1
         puts item.nameTeam2
         puts item.idTeam2
-        if item.idTeam1 == teamID
-          @nameFirstTeam = item.nameTeam1
-          @nameSecondTeam = item.nameTeam2
-          @scoreFirstTeam = item.pointsTeam1
-          @scoreSecondTeam = item.pointsTeam2
-          break
-        elsif item.idTeam2 == teamID
-          @nameFirstTeam = item.nameTeam1
-          @nameSecondTeam = item.nameTeam2
-          @scoreFirstTeam = item.pointsTeam1
-          @scoreSecondTeam = item.pointsTeam2
-          break
-        end
+        #if item.idTeam1 == teamID
+        #  @nameFirstTeam = item.nameTeam1
+        #  @nameSecondTeam = item.nameTeam2
+        #  @scoreFirstTeam = item.pointsTeam1
+        #  @scoreSecondTeam = item.pointsTeam2
+        #  break
+        #elsif item.idTeam2 == teamID
+        #  @nameFirstTeam = item.nameTeam1
+        #  @nameSecondTeam = item.nameTeam2
+        #  @scoreFirstTeam = item.pointsTeam1
+        #  @scoreSecondTeam = item.pointsTeam2
+        #  break
+        #end
         #  break
         #end
 
