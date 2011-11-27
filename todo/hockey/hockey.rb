@@ -55,7 +55,7 @@ class SiriHockeyScores < SiriPlugin
 
       #client = Savon::Client.new do
           #wsdl.document = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
-      end
+      #end
 
       #response = client.request :wsdl, "GetAvailSports"
 
