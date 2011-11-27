@@ -60,19 +60,19 @@ class SiriHockeyScores < SiriPlugin
       # create a client for your SOAP service
       soap = Savon::Client.new("http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL")
       puts soap.wsdl.soap_actions
-      team = soap.xml(".Sport")
-      team.each {
-        |team_name|
-        team_a = team_name.xml(".sportsID")
-        team_a.each{
-          |team_b|
-          if (team_b.content.strip == userTeam)
-              puts "team found"
+      puts "#############################"
+      doc1 = Nokogiri::XML(open(soap))
+      scores1 = doc1.xml("Sport")
+      scores1.each {
+        |score1|
+        team1 = score1.xml(".sportsName")
+        team1.each {
+          |teamname1|
+          if(teamname1.content.strip == userTeam)
+            puts "jippy"
           end
         }
       }
-
-
 
 
       response = client.request(:get_avail_sports)
@@ -274,7 +274,7 @@ class SiriHockeyScores < SiriPlugin
 		if(phrase.match(/score/i) && (phrase.match(/vancouver/i) || phrase.match(/canucks/i)) && phrase.match(/game/i))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "1"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "Fussball"))
 		end
 
 		if(phrase.match(/score/i) && (phrase.match(/washington/i) || phrase.match(/capitals/i)) && phrase.match(/game/i))
