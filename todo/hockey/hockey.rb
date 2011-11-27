@@ -62,26 +62,26 @@ class SiriHockeyScores < SiriPlugin
       puts soap.wsdl.soap_actions
       puts "#############################"
       puts soap
-      doc1 = Nokogiri::XML(open(soap.request(:get_avail_sports)))
-      scores1 = doc1.xml("Sport")
-      scores1.each {
-        |score1|
-        team1 = score1.xml(".sportsName")
-        team1.each {
-          |teamname1|
-          if(teamname1.content.strip == userTeam)
-            puts "jippy"
-          end
-        }
-      }
+      #doc1 = Nokogiri::XML(open(soap.request(:get_avail_sports)))
+      #scores1 = doc1.xml("Sport")
+      #scores1.each {
+      #  |score1|
+      #  team1 = score1.xml(".sportsName")
+      #  team1.each {
+      #    |teamname1|
+      #    if(teamname1.content.strip == userTeam)
+      #      puts "jippy"
+      #    end
+      #  }
+      #}
 
 
-      response = client.request(:get_avail_sports)
+      response = soap.request(:get_match_by_match_id=>"9998")
 
-      puts response.to_hash
+      puts response
 
 
-
+      ausgabe = "test"
       connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, ausgabe))
 
 		return "Checking on tonight's hockey games"
