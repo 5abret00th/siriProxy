@@ -54,9 +54,6 @@ class SoccerScores < SiriPlugin
 	  say "Checking on tonight's hockey games"
 	end
 
-	end
-
-  end
 	#plusgin implementations:
 	def object_from_guzzoni(object, connection)
 
