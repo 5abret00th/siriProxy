@@ -82,8 +82,12 @@ class SiriHockeyScores < SiriPlugin
       puts "Lade alle Sachen initial in den Cache"
       response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
       response.getMatchdataByGroupLeagueSaisonResult.matchdata.each{|item|
+        if item == Schweiz {
         puts item.nameTeam1
         puts item.nameTeam2
+          break
+          end
+          }
     }
 
 
