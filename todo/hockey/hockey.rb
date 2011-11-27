@@ -62,7 +62,7 @@ class SiriHockeyScores < SiriPlugin
       puts soap.wsdl.soap_actions
       puts "#############################"
       puts soap
-      doc1 = Nokogiri::XML(open(soap))
+      doc1 = Nokogiri::XML(open(soap.request(:get_avail_sports)))
       scores1 = doc1.xml("Sport")
       scores1.each {
         |score1|
