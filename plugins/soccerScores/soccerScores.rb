@@ -1,6 +1,7 @@
 require './tweakSiri'
 require './siriObjectGenerator'
 require 'open-uri'
+require 'soap/wsdlDriver'
 #require 'nokogiri'
 
 @nameFirstTeam = ""
@@ -19,7 +20,7 @@ class SoccerScores < SiriPlugin
 
 	def score(connection, teamID)
 
-     @WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
+      @WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
       @soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
       puts "Lade alle Sachen initial in den Cache"
       spieltag = @soap.GetCurrentGroupOrderID(:leagueShortcut=>"bl1")
