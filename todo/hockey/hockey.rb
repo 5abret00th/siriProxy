@@ -52,12 +52,9 @@ class SiriHockeyScores < SiriPlugin
         response = "The score for the " + userTeam + " game is: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
       end
 
+			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
+		}
 
-      #client = Savon::Client.new do
-          #wsdl.document = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
-      #end
-
-      #response = client.request :wsdl, "GetAvailSports"
       puts before
       @WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
       puts between
@@ -67,7 +64,6 @@ class SiriHockeyScores < SiriPlugin
       puts response
       #response = "test"
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
-		}
 
 		return "Checking on tonight's hockey games"
 	end
