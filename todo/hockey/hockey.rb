@@ -76,8 +76,10 @@ class SiriHockeyScores < SiriPlugin
       #}
 
 
-      response = soap.wsdl.request(:get_match_by_match_id=>"9998")
-
+      #response = soap.wsdl.request(:get_match_by_match_id=>"9998")
+      response = client.request :get_avail_sports do
+        soap.body = 1
+      end
       puts "testtest"
 
       puts response

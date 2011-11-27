@@ -1,5 +1,12 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'eventachine'
+require 'zlib'
+require 'cfpropertylist'
+require 'pp'
+require 'tweakSiri'
+require 'interpretSiri'
 require 'open-uri'
 require 'nokogiri'
 require 'savon'
