@@ -1,12 +1,12 @@
 require './tweakSiri'
 require './siriObjectGenerator'
 require 'open-uri'
-require 'nokogiri'
+#require 'nokogiri'
 
-  @firstTeamName = "test"
-  @firstTeamScore = "test"
-  @secondTeamName = "test"
-  @secondTeamScore = "test"
+@nameFirstTeam = ""
+@nameSecondTeam = ""
+@scoreFirstTeam = ""
+@scoreSecondTeam = ""
 
 #############
 # This is a plugin for SiriProxy that will allow you to check the weekends 'german bundesliga' soccer scores
@@ -17,7 +17,65 @@ require 'nokogiri'
 class SoccerScores < SiriPlugin
 
 
-	def score(connection, userTeam)
+	def score(connection, teamID)
+
+     @WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
+      @soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
+      puts "Lade alle Sachen initial in den Cache"
+      spieltag = @soap.GetCurrentGroupOrderID(:leagueShortcut=>"bl1")
+      puts "groupID geladen"
+      puts spieltag.getCurrentGroupOrderIDResult
+      int_spieltag = spieltag.getCurrentGroupOrderIDResult
+      puts int_spieltag
+      response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>int_spieltag,:leagueShortcut=>"bl1",:leagueSaison=>"2011")
+
+      response.getMatchdataByGroupLeagueSaisonResult.matchdata.each{|item|
+        if item.idTeam1 == teamID
+          @nameFirstTeam = item.nameTeam1
+          @nameSecondTeam = item.nameTeam2
+          @scoreFirstTeam = item.pointsTeam1
+          @scoreSecondTeam = item.pointsTeam2
+          break
+        elsif item.idTeam2 == teamID
+          @nameFirstTeam = item.nameTeam1
+          @nameSecondTeam = item.nameTeam2
+          @scoreFirstTeam = item.pointsTeam1
+          @scoreSecondTeam = item.pointsTeam2
+          break
+        end
+        #  break
+        #end
+
+        #GetCurrentGroupOrderIDResult
+      }
+
+      if((@firstTeamName == "") || (@secondTeamName == ""))
+        response = "Kein Spiel der Mannschaft " + teamID + " gefunden"
+      else
+        response = "Das Ergebnis des Spiels zwischen " + teamID + " ist: " + @nameFirstTeam + " (" + @scoreFirstTeam + "), " + @nameSecondTeam + " (" + @scoreSecondTeam + ")"
+			end
+			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
+
+
+                  #wsdl
+      #@response =  @soap.wsdl.get_matchdata_by_group_league_saison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
+      #@response = @soap.request :get_avail_sports
+
+      #puts "######################## "
+      #puts @response
+
+      #@response.getavailsportsresponse.sport.each {|test|
+      #   puts test.sportsName
+      #  }
+        #@soap.version = 2
+        #@soap.body = 9998
+
+
+
+      puts "testtest"
+      ausgabe = "test"
+      connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, ausgabe))
+
 
     return "pruefe bundesligaspiele"
 
@@ -66,7 +124,7 @@ class SoccerScores < SiriPlugin
     if((phrase.match(/Dortmund/i) || phrase.match(/BVB/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "BVB"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "7"))
     end
 
     if(phrase.match(/Leverkusen/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
