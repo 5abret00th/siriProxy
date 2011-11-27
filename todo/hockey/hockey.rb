@@ -81,7 +81,7 @@ class SiriHockeyScores < SiriPlugin
       @soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
       puts "Lade alle Sachen initial in den Cache"
       response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
-      puts response.getMatchdataByGroupLeagueSaisonResult.matchdata.matchid
+      puts response.getMatchdataByGroupLeagueSaisonResult.matchdata
 
 
                   #wsdl
