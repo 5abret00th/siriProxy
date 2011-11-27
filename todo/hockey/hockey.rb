@@ -77,7 +77,7 @@ class SiriHockeyScores < SiriPlugin
       #}
 
                   #wsdl
-      @response =  @soap.get_matchdata_by_group_league_saison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
+      @response =  @soap.wsdl.get_matchdata_by_group_league_saison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
       #@response = @soap.request :get_avail_sports
 
       puts "######################## "
