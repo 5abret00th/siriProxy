@@ -76,10 +76,11 @@ class SiriHockeyScores < SiriPlugin
       #}
 
 
-      puts = soap.wsdl.request(:get_match_by_match_id=>"9998")
+      response = soap.wsdl.request(:get_match_by_match_id=>"9998")
 
+      puts "testtest"
 
-
+      puts response
 
       ausgabe = "test"
       connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, ausgabe))
