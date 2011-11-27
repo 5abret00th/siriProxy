@@ -5,6 +5,8 @@ require 'nokogiri'
 require 'savon'
 require 'soap/wsdlDriver'
 require 'cfpropertylist'
+require 'soap/wsdlDriver'
+
 
 #Savon::SOAP.version=2
 
@@ -59,10 +61,10 @@ class SiriHockeyScores < SiriPlugin
 		}
 
       # create a client for your SOAP service
-      @soap = Savon::Client.new("http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL")
-      puts @soap.wsdl.soap_actions
-      puts "#############################"
-      puts @soap
+      #@soap = Savon::Client.new("http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL")
+      #puts @soap.wsdl.soap_actions
+      #puts "#############################"
+      #puts @soap
       #doc1 = Nokogiri::XML(open(soap.request(:get_avail_sports)))
       #scores1 = doc1.xml("Sport")
       #scores1.each {
@@ -75,13 +77,19 @@ class SiriHockeyScores < SiriPlugin
       #    end
       #  }
       #}
+      @WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
+      @soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
+      puts "Lade alle Sachen initial in den Cache"
+      response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
+      puts response.getMatchdataByGroupLeagueSaisonResult.matchdata.matchid
+
 
                   #wsdl
-      @response =  @soap.wsdl.get_matchdata_by_group_league_saison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
+      #@response =  @soap.wsdl.get_matchdata_by_group_league_saison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
       #@response = @soap.request :get_avail_sports
 
-      puts "######################## "
-      puts @response
+      #puts "######################## "
+      #puts @response
 
       #@response.getavailsportsresponse.sport.each {|test|
       #   puts test.sportsName
