@@ -73,7 +73,7 @@ class SiriHockeyScores < SiriPlugin
       # => [:create_user, :get_user, :get_all_users]
 
       # execute a SOAP request to call the "getUser" action
-      response = client.request(:GetMatchdataByGroupLeagueSaison) do
+      response = client.request(:getmatchdatabygroupleaguesaison) do
           soap.body = { :groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008" }
       end
 
