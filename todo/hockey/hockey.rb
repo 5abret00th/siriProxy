@@ -87,7 +87,7 @@ class SiriHockeyScores < SiriPlugin
       blah = spieltag.getCurrentGroupOrderIDResult
       puts blah
 
-      response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>spieltag,:leagueShortcut=>"bl1",:leagueSaison=>"2011")
+      response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>blah,:leagueShortcut=>"bl1",:leagueSaison=>"2011")
       response.getMatchdataByGroupLeagueSaisonResult.matchdata.each{|item|
         #if item.matchID == "3"
         puts item.nameTeam1
