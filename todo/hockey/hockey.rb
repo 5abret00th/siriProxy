@@ -3,6 +3,7 @@ require './siriObjectGenerator'
 require 'open-uri'
 require 'nokogiri'
 require 'savon'
+require 'soap/wsdlDriver'
 
 #Savon::SOAP.version=2
 
