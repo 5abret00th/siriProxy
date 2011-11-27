@@ -64,7 +64,7 @@ class SiriHockeyScores < SiriPlugin
       blah = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
       response = CFPropertyList.guess(blah,:convert_unknown_to_string => true,:converter_method => :to_hash)
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
-      }
+
 		return "Checking on tonight's hockey games"
 	end
 
