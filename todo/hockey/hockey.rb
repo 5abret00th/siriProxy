@@ -62,7 +62,7 @@ class SiriHockeyScores < SiriPlugin
       #@WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
       #@soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
       #response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
-
+      puts "test"
       #response = "test"
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
 		}
