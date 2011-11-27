@@ -49,8 +49,8 @@ class SoccerScores < SiriPlugin
 
       }
 
-      if((@firstTeamName == "") || (@secondTeamName == ""))
-        response = "Kein Spiel der Mannschaft " + teamID + " gefunden"
+      if((@scoreFirstTeam == "-1") || (@scoreSecondTeam == "-1"))
+        response = "Anscheinend hat " + teamName + " noch nicht gespielt"
       else
         response = "Das Ergebnis des Spiels von " + teamName + " ist: " + @nameFirstTeam + " (" + @scoreFirstTeam + "), " + @nameSecondTeam + " (" + @scoreSecondTeam + ")"
 			end
