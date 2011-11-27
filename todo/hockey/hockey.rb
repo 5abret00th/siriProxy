@@ -8,6 +8,49 @@ require 'cfpropertylist'
 require 'soap/wsdlDriver'
 
 
+1. FC Köln
+65
+Bor. Mönchengladbach
+87
+FC Augsburg
+95
+VfL Wolfsburg
+131
+Hertha BSC
+54
+Bayer Leverkusen
+6
+1. FC Nürnberg
+79
+1. FC Kaiserslautern
+76
+TSG 1899 Hoffenheim
+123
+SC Freiburg
+112
+Borussia Dortmund
+7
+FC Schalke 04
+9
+Hannover 96
+55
+Hamburger SV
+100
+Werder Bremen
+134
+VfB Stuttgart
+16
+1. FSV Mainz 05
+81
+FC Bayern München
+40
+
+
+
+
+
+
+
 #Savon::SOAP.version=2
 
 #############

@@ -18,7 +18,7 @@ require 'soap/wsdlDriver'
 class SoccerScores < SiriPlugin
 
 
-	def score(connection, teamID)
+	def score(connection, teamID, teamName)
 
       @WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
       @soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
@@ -57,9 +57,9 @@ class SoccerScores < SiriPlugin
       if((@firstTeamName == "") || (@secondTeamName == ""))
         response = "Kein Spiel der Mannschaft " + teamID + " gefunden"
       else
-        response = "Das Ergebnis des Spiels zwischen " + teamID + " ist: " + @nameFirstTeam + " (" + @scoreFirstTeam + "), " + @nameSecondTeam + " (" + @scoreSecondTeam + ")"
+        response = "Das Ergebnis des Spiels von " + teamName + " ist: " + @nameFirstTeam + " (" + @scoreFirstTeam + "), " + @nameSecondTeam + " (" + @scoreSecondTeam + ")"
 			end
-			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
+			return connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
 
 
                   #wsdl
@@ -74,15 +74,6 @@ class SoccerScores < SiriPlugin
       #  }
         #@soap.version = 2
         #@soap.body = 9998
-
-
-
-      puts "testtest"
-      ausgabe = "test"
-      connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, ausgabe))
-
-
-    return "pruefe bundesligaspiele"
 
   end
 
@@ -111,109 +102,109 @@ class SoccerScores < SiriPlugin
     if(phrase.match(/Gladbach/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "BMG"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "87", "Gladbach"))
 		end
 
     if(phrase.match(/Bremen/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "BRE"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "134", "Bremen"))
     end
 
     if((phrase.match(/Herta/i) || phrase.match(/BSC/i) || phrase.match(/Berlin/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "BSC"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "54", "Berlin"))
 		end
 
     if((phrase.match(/Dortmund/i) || phrase.match(/BVB/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "7"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "7", "Dortmund"))
     end
 
     if(phrase.match(/Leverkusen/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "B04"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "6", "Leverkusen"))
 		end
 
     if(phrase.match(/Augsburg/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "FCA"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "94". "Augsburg"))
     end
 
     if((phrase.match(/Bayern/i) || phrase.match(/München/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "FCB"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "40", "Bayern"))
     end
 
     if((phrase.match(/Kaiserslautern/i) || phrase.match(/lautern/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "FCK"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "76", "Kaiserslautern"))
     end
 
     if((phrase.match(/Nürnberg/i) || phrase.match(/Club/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "FCN"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "79", "Nürnberg"))
     end
 
     if(phrase.match(/Hoffenheim/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "HOF"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "123", "Hoffenheim"))
     end
 
     if((phrase.match(/Hamburg/i) || phrase.match(/HSV/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "HSV"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "100", "Hamburg"))
     end
 
     if(phrase.match(/Hannover/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "H96"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "55", "Hannover"))
     end
 
     if(phrase.match(/Köln/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "KOE"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "65", "Köln"))
     end
 
     if(phrase.match(/Mainz/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "M05"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "81", "Mainz"))
     end
 
-    if(phrase.match(/Frankfurth/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
+    if(phrase.match(/Freiburg/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "SCF"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "112", "Freiburg"))
     end
 
     if(phrase.match(/Schalke/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "S04"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "9", "Schalke"))
     end
 
     if((phrase.match(/Stuttgart/i) || phrase.match(/VFB/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "VFB"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "16", "Stuttgart"))
     end
 
     if(phrase.match(/Wolfsburg/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "Stars"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "131", "Wolfsburg"))
     end
 
 		object
