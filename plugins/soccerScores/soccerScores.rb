@@ -31,27 +31,23 @@ class SoccerScores < SiriPlugin
       response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>int_spieltag,:leagueShortcut=>"bl1",:leagueSaison=>"2011")
 
       response.getMatchdataByGroupLeagueSaisonResult.matchdata.each{|item|
-        puts item.nameTeam1
-        puts item.idTeam1
-        puts item.nameTeam2
-        puts item.idTeam2
-        #if item.idTeam1 == teamID
-        #  @nameFirstTeam = item.nameTeam1
-        #  @nameSecondTeam = item.nameTeam2
-        #  @scoreFirstTeam = item.pointsTeam1
-        #  @scoreSecondTeam = item.pointsTeam2
-        #  break
-        #elsif item.idTeam2 == teamID
-        #  @nameFirstTeam = item.nameTeam1
-        #  @nameSecondTeam = item.nameTeam2
-        #  @scoreFirstTeam = item.pointsTeam1
-        #  @scoreSecondTeam = item.pointsTeam2
-        #  break
-        #end
-        #  break
-        #end
 
-        #GetCurrentGroupOrderIDResult
+        if item.idTeam1 == teamID
+          @nameFirstTeam = item.nameTeam1
+          @nameSecondTeam = item.nameTeam2
+          @scoreFirstTeam = item.pointsTeam1
+          @scoreSecondTeam = item.pointsTeam2
+          break
+        elsif item.idTeam2 == teamID
+          @nameFirstTeam = item.nameTeam1
+          @nameSecondTeam = item.nameTeam2
+          @scoreFirstTeam = item.pointsTeam1
+          @scoreSecondTeam = item.pointsTeam2
+          break
+        end
+          break
+        end
+
       }
 
       if((@firstTeamName == "") || (@secondTeamName == ""))
@@ -132,7 +128,7 @@ class SoccerScores < SiriPlugin
     if(phrase.match(/Augsburg/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "94". "Augsburg"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "94", "Augsburg"))
     end
 
     if((phrase.match(/Bayern/i) || phrase.match(/München/i)) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
@@ -208,5 +204,6 @@ class SoccerScores < SiriPlugin
     end
 
 		object
-	end
+  end
 end
+
