@@ -2,3 +2,5 @@
 .idea/workspace.xml
 server.passless.crt
 server.passless.key
+
+.idea/inspectionProfiles/profiles_settings.xml
