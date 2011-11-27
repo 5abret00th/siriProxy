@@ -316,7 +316,7 @@ class SiriHockeyScores < SiriPlugin
 		if(phrase.match(/score/i) && (phrase.match(/vancouver/i) || phrase.match(/canucks/i)) && phrase.match(/game/i))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "14125"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "7"))
 		end
 
 		if(phrase.match(/score/i) && (phrase.match(/washington/i) || phrase.match(/capitals/i)) && phrase.match(/game/i))
