@@ -3,6 +3,11 @@ require './siriObjectGenerator'
 require 'open-uri'
 require 'nokogiri'
 
+  @firstTeamName = "test"
+  @firstTeamScore = "test"
+  @secondTeamName = "test"
+  @secondTeamScore = "test"
+
 #############
 # This is a plugin for SiriProxy that will allow you to check the weekends 'german bundesliga' soccer scores
 # Example usage: "Wie hat Stuttgart heute gespielt"
@@ -14,65 +19,42 @@ class SoccerScores < SiriPlugin
 
 	def score(connection, userTeam)
 
-  @firstTeamName = "test"
-  @firstTeamScore = "test"
-  @secondTeamName = "test"
-  @secondTeamScore = "test"
+	  Thread.new {
+	    doc = Nokogiri::HTML(open("http://www.nhl.com/ice/m_scores.htm"))
+      scores = doc.css(".gmDisplay")
 
-
-	  #Thread.new {
-      #connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, "response"))
-	    #doc = Nokogiri::HTML(open("http://mobil.bundesliga.de/index.php?file=de/index.xhtml"))
-      #scores = doc.css(".game_entry")
-
-      #scores.each {
-      #  |score|
-      #  team_home = score.css(".pic25left")
-        #team_guest = score.css(".pic25right") #second array needed
-
-      #  team_home.each {
-      #    |teamname|
-      #    if(teamname.content.strip == userTeam)
-      #      firstTeam = score.css("div:nth-child(1)").first
-      #      @firstTeamName = firstTeam.css(".pic25left").first.content.strip
-      #      @firstTeamScore = firstTeam.css(".score").first.content.strip  #function needed to convert 2:2 into seperated values
-      #      secondTeam = score.css("div:nth-child(1)").first
-      #      @secondTeamName = secondTeam.css(".pic25right").first.content.strip
-      #      @secondTeamScore = secondTeam.css(".score").first.content.strip
-      #      break
-      #    end
-      # }
-
-        #team_guest.each {
-        #  |teamname|
-        #  if(teamname.content.strip == userTeam)
-        #    firstTeam = score.css("div:nth-child(1)").first
-        #    @firstTeamName = firstTeam.css(".pic25left").first.content.strip
-        #    @firstTeamScore = firstTeam.css(".score").first.content.strip
-        #    secondTeam = score.css("div:nth-child(1)").first
-        #    @secondTeamName = secondTeam.css(".pic25right").first.content.strip
-        #    @secondTeamScore = secondTeam.css(".score").first.content.strip
-        #    break
-        #  end
-        #}
-
-      #}
-
+      scores.each {
+        |score|
+        team = score.css(".blkcolor")
+        team.each {
+          |teamname|
+          if(teamname.content.strip.downcase == userTeam.downcase)
+            firstTeam = score.css("tr:nth-child(2)").first
+            @firstTeamName = firstTeam.css(".blkcolor").first.content.strip
+            @firstTeamScore = firstTeam.css("td:nth-child(2)").first.content.strip
+            secondTeam = score.css("tr:nth-child(3)").first
+            @secondTeamName = secondTeam.css(".blkcolor").first.content.strip
+            @secondTeamScore = secondTeam.css("td:nth-child(2)").first.content.strip
+            break
+          end
+        }
+      }
       if((@firstTeamName == "") || (@secondTeamName == ""))
-        response = "Es wurde kein Spiel von " + userTeam + " gefunden"
+        response = "No games involving the " + userTeam + " were found playing tonight"
       else
-        response = "Das Ergebnis vom " + userTeam + " Spiel ist: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
-			  #response = "kein ergebnis gefunden"
-      end
-			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
-    #}
+        response = "The score for the " + userTeam + " game is: " + @firstTeamName + " (" + @firstTeamScore + "), " + @secondTeamName + " (" + @secondTeamScore + ")"
+			end
+			@firstTeamName = ""
+			@secondTeamName = ""
+			say response
 
-		return "Prüfe die Bundesligaspiele von "+ userTeam
+			request_completed
+		}
+
+	  say "Checking on tonight's hockey games"
 	end
 
-  def homeScoreParser(score)
-
-  #This Parser is needed to convert the score as sting into 2 integer and add them to the @fistTeamScore and @secondTeamScore
+	end
 
   end
 	#plusgin implementations:
@@ -202,7 +184,7 @@ class SoccerScores < SiriPlugin
     if(phrase.match(/Wolfsburg/i) && (phrase.match(/spiel/i) || phrase.match(/gespielt/i)))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "WOB"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "Stars"))
     end
 
 		object
