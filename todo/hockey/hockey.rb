@@ -64,11 +64,11 @@ class SiriHockeyScores < SiriPlugin
       # => [:create_user, :get_user, :get_all_users]
       number = 2
       # execute a SOAP request to call the "getUser" action
-      response.to_hash = client.request(:get_avail_sports)
+      response = client.request(:get_avail_sports)
 
-      puts response
+      puts response.to_hash
 
-      #response.body
+
 
       connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, ausgabe))
 
