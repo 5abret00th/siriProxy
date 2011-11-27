@@ -94,6 +94,14 @@ class SiriHockeyScores < SiriPlugin
         puts item.idTeam1
         if item.idTeam1 == userTeam
           puts "ich habs gefunden"
+          puts "nameTeam1"
+          puts item.nameTeam1
+          puts "nameTeam2"
+          puts item.nameTeam2
+          puts "result Team 1"
+          puts item.matchResults.pointsTeam1
+          puts "result Team 2"
+          puts item.matchResults.pointsTeam2
           break
         elsif item.idTeam2 == userTeam
           puts "ich hab das zweite gefunden"
@@ -316,7 +324,7 @@ class SiriHockeyScores < SiriPlugin
 		if(phrase.match(/score/i) && (phrase.match(/vancouver/i) || phrase.match(/canucks/i)) && phrase.match(/game/i))
 			self.plugin_manager.block_rest_of_session_from_server
 			connection.inject_object_to_output_stream(object)
-			return generate_siri_utterance(connection.lastRefId, score(connection, "7"))
+			return generate_siri_utterance(connection.lastRefId, score(connection, "65"))
 		end
 
 		if(phrase.match(/score/i) && (phrase.match(/washington/i) || phrase.match(/capitals/i)) && phrase.match(/game/i))
