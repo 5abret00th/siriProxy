@@ -58,10 +58,10 @@ class SiriHockeyScores < SiriPlugin
 		}
 
       # create a client for your SOAP service
-      soap = Savon::Client.new("http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL")
-      puts soap.wsdl.soap_actions
+      @soap = Savon::Client.new("http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL")
+      puts @soap.wsdl.soap_actions
       puts "#############################"
-      puts soap
+      puts @soap
       #doc1 = Nokogiri::XML(open(soap.request(:get_avail_sports)))
       #scores1 = doc1.xml("Sport")
       #scores1.each {
@@ -76,13 +76,10 @@ class SiriHockeyScores < SiriPlugin
       #}
 
                   #wsdl
-      puts soap.request(:get_match_by_match_id=>"9998")
+      response =  @soap.request(:get_match_by_match_id=>"9998")
       #response = soap.request :get_avail_sports
 
       puts "testtest"
-
-      puts response
-
       ausgabe = "test"
       connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, ausgabe))
 
