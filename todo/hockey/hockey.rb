@@ -61,6 +61,7 @@ class SiriHockeyScores < SiriPlugin
       soap = Savon::Client.new("http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL")
       puts soap.wsdl.soap_actions
       puts "#############################"
+      puts soap
       doc1 = Nokogiri::XML(open(soap))
       scores1 = doc1.xml("Sport")
       scores1.each {
