@@ -51,7 +51,7 @@ class SoccerScores < SiriPlugin
 			request_completed
 		}
 
-	  say "Checking on tonight's hockey games"
+	  return "Checking on tonight's hockey games"
 	end
 
 	#plusgin implementations:
