@@ -76,7 +76,7 @@ class SiriHockeyScores < SiriPlugin
       #}
 
                   #wsdl
-      puts = soap.request(:get_match_by_match_id=>"9998")
+      puts soap.request(:get_match_by_match_id=>"9998")
       #response = soap.request :get_avail_sports
 
       puts "testtest"
