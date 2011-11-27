@@ -69,13 +69,15 @@ class SiriHockeyScores < SiriPlugin
       # create a client for your SOAP service
       client = Savon::Client.new("http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL")
 
-      client.wsdl.soap_actions
+      puts client.wsdl.soap_actions
       # => [:create_user, :get_user, :get_all_users]
 
       # execute a SOAP request to call the "getUser" action
       response = client.request(:GetMatchdataByGroupLeagueSaison) do
           soap.body = { :groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008" }
       end
+
+
 
       response.body
 
