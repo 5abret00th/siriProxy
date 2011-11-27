@@ -31,6 +31,10 @@ class SoccerScores < SiriPlugin
       response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>int_spieltag,:leagueShortcut=>"bl1",:leagueSaison=>"2011")
 
       response.getMatchdataByGroupLeagueSaisonResult.matchdata.each{|item|
+        puts item.nameTeam1
+        puts item.idTeam1
+        puts item.nameTeam2
+        puts item.idTeam2
         if item.idTeam1 == teamID
           @nameFirstTeam = item.nameTeam1
           @nameSecondTeam = item.nameTeam2
