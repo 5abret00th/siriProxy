@@ -80,7 +80,7 @@ class SiriHockeyScores < SiriPlugin
       #@response =  @soap.request(:get_match_by_match_id=>"9998")
       @response = @soap.request :get_match_by_match_id do
         @soap.version = 2
-        @soap.body.get_match_by_match_id.matchid = 9998
+        @soap.body = 9998
       end
 
       puts "testtest"
