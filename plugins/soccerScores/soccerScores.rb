@@ -45,8 +45,7 @@ class SoccerScores < SiriPlugin
           @scoreSecondTeam = item.pointsTeam2
           break
         end
-          break
-        end
+
 
       }
 
