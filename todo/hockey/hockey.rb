@@ -57,14 +57,29 @@ class SiriHockeyScores < SiriPlugin
 			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
 		}
 
-      puts "before"
-      @WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
-      puts "between"
-      @soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
-      puts "after"
-      blah = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
-      response = blah.nameTeam1
-			connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
+      #puts "before"
+      #@WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
+      #puts "between"
+      #@soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
+      #puts "after"
+      #blah = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
+      #response = blah.nameTeam1
+			#connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
+
+      # create a client for your SOAP service
+      client = Savon::Client.new("http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL")
+
+      client.wsdl.soap_actions
+      # => [:create_user, :get_user, :get_all_users]
+
+      # execute a SOAP request to call the "getUser" action
+      response = client.request(:GetMatchdataByGroupLeagueSaison) do
+          soap.body = { :groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008" }
+      end
+
+      response.body
+
+      connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
 
 		return "Checking on tonight's hockey games"
 	end
