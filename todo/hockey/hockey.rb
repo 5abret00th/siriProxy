@@ -77,11 +77,11 @@ class SiriHockeyScores < SiriPlugin
           #soap.body = { :groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008" }
       #end
 
-      puts response
+      #puts response
 
       #response.body
 
-      #connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
+      connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
 
 		return "Checking on tonight's hockey games"
 	end
