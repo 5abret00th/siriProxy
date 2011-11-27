@@ -98,10 +98,10 @@ class SiriHockeyScores < SiriPlugin
           puts item.nameTeam1
           puts "nameTeam2"
           puts item.nameTeam2
-          puts "result Team 1"
-          puts item.matchResults.pointsTeam1
+          puts "result Team 1"}
+          puts item.pointsTeam1
           puts "result Team 2"
-          puts item.matchResults.pointsTeam2
+          puts item.pointsTeam2
           break
         elsif item.idTeam2 == userTeam
           puts "ich hab das zweite gefunden"
