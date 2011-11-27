@@ -84,7 +84,7 @@ class SiriHockeyScores < SiriPlugin
       response.getMatchdataByGroupLeagueSaisonResult.matchdata.each{|item|
         #if item.matchID == "3"
         puts item.nameTeam1
-        puts item.nameTeam2
+        puts item.matchID
         #  break
         #end
         }
