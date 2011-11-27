@@ -64,15 +64,9 @@ class SiriHockeyScores < SiriPlugin
       # => [:create_user, :get_user, :get_all_users]
       number = 2
       # execute a SOAP request to call the "getUser" action
-      response = client.request(:get_avail_sports)
-      response.each {
-        |res|
-        if (res.sportsID == number)
-          ausgabe == res.sportsName
-        end
-      }
+      response.to_hash = client.request(:get_avail_sports)
 
-      #puts response
+      puts response
 
       #response.body
 
