@@ -93,10 +93,10 @@ class SiriHockeyScores < SiriPlugin
         puts item.nameTeam1
         puts item.idTeam1
         if item.idTeam1 == userTeam
-          puts ich habs gefunden
+          puts "ich habs gefunden"
           break
         elsif item.idTeam2 == userTeam
-          puts ich hab das zweite gefunden
+          puts "ich hab das zweite gefunden"
           break
         end
         #  break
