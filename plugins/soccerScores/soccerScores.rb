@@ -2,7 +2,6 @@ require './tweakSiri'
 require './siriObjectGenerator'
 require 'open-uri'
 require 'soap/wsdlDriver'
-#require 'nokogiri'
 
 @nameFirstTeam = ""
 @nameSecondTeam = ""
@@ -10,7 +9,7 @@ require 'soap/wsdlDriver'
 @scoreSecondTeam = ""
 
 #############
-# This is a plugin for SiriProxy that will allow you to check the weekends 'german bundesliga' soccer scores
+# This is a plugin for SiriProxy that will allow you to check the weekends 'german Bundesliga' soccer scores
 # Example usage: "Wie hat Stuttgart heute gespielt"
 # This Plugin is based on the NHL Plugin from XXXXXXXXXX
 #############
@@ -22,16 +21,11 @@ class SoccerScores < SiriPlugin
 
       @WSDL_URL = "http://www.OpenLigaDB.de/Webservices/Sportsdata.asmx?WSDL"
       @soap = SOAP::WSDLDriverFactory.new(@WSDL_URL).create_rpc_driver
-      puts "Lade alle Sachen initial in den Cache"
-      spieltag = @soap.GetCurrentGroupOrderID(:leagueShortcut=>"bl1")
-      puts "groupID geladen"
-      puts spieltag.getCurrentGroupOrderIDResult
-      int_spieltag = spieltag.getCurrentGroupOrderIDResult
-      puts int_spieltag
+      gameday = @soap.GetCurrentGroupOrderID(:leagueShortcut=>"bl1")
+      int_gameday = gameday.getCurrentGroupOrderIDResult  #gameday.getCurrentGroupOrderID is an Object but an Integer is needed
       response = @soap.GetMatchdataByGroupLeagueSaison(:groupOrderID=>int_spieltag,:leagueShortcut=>"bl1",:leagueSaison=>"2011")
 
       response.getMatchdataByGroupLeagueSaisonResult.matchdata.each{|item|
-
         if item.idTeam1 == teamID
           @nameFirstTeam = item.nameTeam1
           @nameSecondTeam = item.nameTeam2
@@ -45,32 +39,17 @@ class SoccerScores < SiriPlugin
           @scoreSecondTeam = item.pointsTeam2
           break
         end
-
-
-      }
+      }#response.getMatchdataByGroupLeagueSaisonResult.matchdata.each
 
       if((@scoreFirstTeam == "-1") || (@scoreSecondTeam == "-1"))
         response = "Anscheinend hat " + teamName + " noch nicht gespielt"
       else
         response = "Das Ergebnis des Spiels von " + teamName + " ist: " + @nameFirstTeam + " (" + @scoreFirstTeam + "), " + @nameSecondTeam + " (" + @scoreSecondTeam + ")"
-			end
+      end
+
 			return connection.inject_object_to_output_stream(generate_siri_utterance(connection.lastRefId, response))
 
-
-                  #wsdl
-      #@response =  @soap.wsdl.get_matchdata_by_group_league_saison(:groupOrderID=>"1",:leagueShortcut=>"fem08",:leagueSaison=>"2008")
-      #@response = @soap.request :get_avail_sports
-
-      #puts "######################## "
-      #puts @response
-
-      #@response.getavailsportsresponse.sport.each {|test|
-      #   puts test.sportsName
-      #  }
-        #@soap.version = 2
-        #@soap.body = 9998
-
-  end
+  end #def score(connection, teamID, teamName)
 
 	#plusgin implementations:
 	def object_from_guzzoni(object, connection)

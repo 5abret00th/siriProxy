@@ -4,7 +4,6 @@ $KCODE='u' #setting KCODE to unicode for Ruby 1.8
 
 #require 'plugins/testproxy/testproxy'
 require 'plugins/soccerScores/soccerScores'
-#require 'todo/hockey/hockey'
 # require 'plugins/thermostat/siriThermostat'
 # require 'plugins/eliza/eliza'
 # require 'plugins/twitter/siriTweet'
